@@ -5,8 +5,9 @@ from rest_framework.response import Response
 
 # Create your views here.
 
-from .serializers import RegisterSerializer, LoginSerializer
-
+from .serializers import RegisterSerializer, LoginSerializer, ProfileSerializer
+from .models import Profile
+from .permissions import CustomReadOnly
 
 class RegisterView(generics.CreateAPIView):
     queryset = User.objects.all()
@@ -21,5 +22,14 @@ class LoginView(generics.GenericAPIView):
         serializer.is_valid(raise_exception=True)
         token = serializer.validated_data
         return Response({"token": token.key}, status=status.HTTP_200_OK)
+
+
+class ProfileView(generics.RetrieveUpdateAPIView):
+    queryset = Profile.objects.all()
+    serializer_class = ProfileSerializer
+    permission_classes = [CustomReadOnly]
+
+
+
 
 
