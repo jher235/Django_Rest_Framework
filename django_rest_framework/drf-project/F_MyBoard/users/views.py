@@ -27,7 +27,7 @@ class LoginView(generics.GenericAPIView):
 class ProfileView(generics.RetrieveUpdateAPIView):
     queryset = Profile.objects.all()
     serializer_class = ProfileSerializer
-    permission_classes = [CustomReadOnly]
+    # permission_classes = [CustomReadOnly]
 
 
 
