@@ -10,6 +10,11 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.2/ref/settings/
 """
 import os
+import dj_database_url #ㅂㅍ
+import environ  #ㅂㅍ
+env = environ.Env()     #ㅂㅍ
+environ.Env.read_env()      #ㅂㅍ
+
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -20,12 +25,14 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-t!t2#r7$29@x^xs0mns*v^hhf!^=ss%9ls*l@v9akta_y@k+l='
+# SECRET_KEY = 'django-insecure-t!t2#r7$29@x^xs0mns*v^hhf!^=ss%9ls*l@v9akta_y@k+l='
+SECRET_KEY = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))        #ㅂㅍ
+
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False        #ㅂㅍ
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['.herokuapp.com', '127.0.0.1']
 
 
 # Application definition
@@ -54,6 +61,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',       #ㅂㅍ
 ]
 
 ROOT_URLCONF = 'myboard.urls'
@@ -87,6 +95,10 @@ DATABASES = {
     }
 }
 
+db_from_env = dj_database_url.config(conn_max_age=500)      #ㅂㅍ
+DATABASES['default'].update(db_from_env)        #ㅂㅍ
+
+
 
 # Password validation
 # https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators
@@ -117,7 +129,6 @@ REST_FRAMEWORK = {
         'rest_framework.pagination.PageNumberPagination',
         'PAGE_SIZE':
         3,
-
 }
 
 

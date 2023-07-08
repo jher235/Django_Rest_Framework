@@ -16,6 +16,11 @@ class Post(models.Model):
     published_date = models.DateTimeField(default=timezone.now)
 
 
+class Comment(models.Model):
+    author = models.ForeignKey(User, on_delete=models.CASCADE)
+    profile = models.ForeignKey(Profile, on_delete=models.CASCADE)
+    post = models.ForeignKey(Post, on_delete=models.CASCADE, related_name='comments')
+    text = models.TextField()
 
 
 
